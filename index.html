@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Octavos de final · Torneo de Smash Bros · Legado TCG x Smash &amp; Snacks</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0f1219;--panel:#181d2a;--line:#323b52;--tx:#f2f4f8;--mut:#8a94ab;--red:#ff3b4e;--gold:#ffc83d;--slot:#121724;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef0f5;--panel:#fff;--line:#c3c9d8;--tx:#141824;--mut:#5d667c;--slot:#f5f6fa;--gold:#d9a000;color-scheme:light}}
+:root[data-theme="dark"]{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font:16px/1.4 Figtree,system-ui,sans-serif;min-height:100%}
+body{background:radial-gradient(1200px 400px at 50% -120px,color-mix(in srgb,var(--red) 28%,transparent),transparent),var(--bg)}
+header{display:grid;grid-template-columns:1fr auto 1fr;gap:20px;align-items:center;padding:22px 24px 14px;border-bottom:1px solid var(--line)}
+.brand{display:flex;align-items:center;gap:18px;justify-content:center;text-align:left}
+h1{font:800 clamp(26px,3.6vw,48px)/1 Unbounded,system-ui,sans-serif;margin:0;letter-spacing:-.02em}
+.sub{margin:8px 0 0;color:var(--mut);font-weight:600;font-size:clamp(13px,1.3vw,17px)}
+.sub b{color:var(--red)}
+.logo{height:96px;display:flex;align-items:center}
+.logo.l{justify-content:flex-start}.logo.r{justify-content:flex-end}
+.logo img{max-height:96px;max-width:220px;object-fit:contain}
+.logo span{display:none}
+.logo.missing{width:200px;justify-content:center;border:2px dashed var(--line);border-radius:12px;color:var(--mut);font-size:13px;text-align:center;padding:8px}
+.logo.missing span{display:block}
+.logo.missing img{display:none}
+.logo.sm{height:96px}.logo.sm.missing{width:150px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;padding:10px 24px 0}
+body.present .tools{display:none}
+@media (max-width:860px){header{grid-template-columns:1fr 1fr}.brand{grid-column:1/-1;order:-1;flex-direction:column;text-align:center}.logo{height:70px}.logo img{max-height:70px}}
+button{font:600 14px Figtree,sans-serif;color:var(--tx);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:9px 14px;cursor:pointer}
+button:hover{border-color:var(--red)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.hint{padding:10px 24px 0;color:var(--mut);font-size:14px;margin:0 0 8px}
+body.present .hint,body.present .edit{display:none}
+#wrap{overflow-x:auto;padding:12px 24px 32px}
+#bd{position:relative;display:flex;gap:56px;min-width:1100px;height:760px}
+#bd svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.col{flex:1;display:flex;flex-direction:column;position:relative;z-index:1;min-width:190px}
+.col h2{font:600 13px Figtree;color:var(--mut);margin:0 0 6px;height:20px}
+.ms{flex:1;display:flex;flex-direction:column;justify-content:space-around}
+.m{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.row{display:flex;align-items:center;gap:8px;height:36px;padding:0 6px 0 12px;border-top:1px solid var(--line)}
+.row:first-child{border-top:0}
+.nm{flex:1;min-width:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nm input{width:100%;font:inherit;color:inherit;background:none;border:0;padding:0}
+.row.empty .nm{color:var(--mut);font-weight:400}
+.row.lose .nm{color:var(--mut);text-decoration:line-through;text-decoration-color:var(--line)}
+.row.win{background:color-mix(in srgb,var(--red) 16%,var(--panel))}
+.ok{width:22px;height:22px;padding:0;border-radius:50%;flex:none;border-color:var(--line)}
+.row.win .ok{background:var(--red);border-color:var(--red)}
+.ok:disabled{opacity:.25;cursor:default}
+.champ{justify-content:center}
+.cbox{border:2px solid var(--gold);border-radius:14px;padding:22px 14px;text-align:center;background:var(--panel)}
+.cbox small{display:block;color:var(--gold);font-weight:600;margin-bottom:6px}
+.cbox b{font:800 clamp(20px,2.4vw,32px)/1.1 Unbounded,sans-serif;word-break:break-word}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo l"><img src="logos/legado.png" alt="Legado TCG" onerror="this.parentNode.classList.add('missing')"><span>Logo<br>Legado TCG<br><small>logos/legado.png</small></span></div>
+  <div class="brand">
+    <div class="logo sm"><img src="logos/smash.png" alt="Super Smash Bros." onerror="this.parentNode.classList.add('missing')"><span>Logo Smash<br><small>logos/smash.png</small></span></div>
+    <div><h1>Octavos de final</h1><p class="sub">Torneo de Smash Bros &middot; <b>Legado TCG</b> x <b>Smash &amp; Snacks</b></p></div>
+  </div>
+  <div class="logo r"><img src="logos/smash-snacks.png" alt="Smash &amp; Snacks" onerror="this.parentNode.classList.add('missing')"><span>Logo<br>Smash &amp; Snacks<br><small>logos/smash-snacks.png</small></span></div>
+</header>
+<div class="tools">
+  <button id="reset" class="edit">Reiniciar resultados</button>
+  <button id="pres">Modo presentación</button>
+</div>
+<p class="hint">Escribe los 16 nombres en la primera columna y pulsa el círculo del ganador para que avance.</p>
+<div id="wrap"><div id="bd"></div></div>
+<script>
+var KEY="smash-bracket-v1",N=["Octavos","Cuartos","Semifinales","Final"];
+var S={title:"Octavos de final",names:[],win:[[],[],[],[]]};
+for(var i=0;i<16;i++)S.names.push("");
+try{var r=localStorage.getItem(KEY);if(r)S=JSON.parse(r)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function who(r,j,s){
+  if(r===0){var n=S.names[2*j+s];return n&&n.trim()?n:null}
+  var w=S.win[r-1][2*j+s];
+  return w==null?null:who(r-1,2*j+s,w);
+}
+function pres(){return document.body.classList.contains("present")}
+function render(){
+  var h="";
+  for(var r=0;r<4;r++){
+    var c=8>>r,ms="";
+    for(var j=0;j<c;j++){
+      var w=S.win[r][j],rows="";
+      for(var s=0;s<2;s++){
+        var n=who(r,j,s),cls="row"+(n?"":" empty")+(w===s?" win":"")+(w!=null&&w!==s?" lose":"");
+        var label=(r===0&&!pres())?'<input data-n="'+(2*j+s)+'" value="'+esc(S.names[2*j+s])+'" placeholder="Jugador '+(2*j+s+1)+'" maxlength="24" aria-label="Nombre del jugador '+(2*j+s+1)+'">':esc(n||(r===0?"Jugador "+(2*j+s+1):"Por definir"));
+        rows+='<div class="'+cls+'"><span class="nm">'+label+'</span><button class="ok" data-r="'+r+'" data-j="'+j+'" data-s="'+s+'" title="Pasa a la siguiente ronda" aria-label="Marcar ganador"'+(n?"":" disabled")+'></button></div>';
+      }
+      ms+='<div class="m" data-m="'+r+'-'+j+'">'+rows+'</div>';
+    }
+    h+='<div class="col"><h2>'+N[r]+'</h2><div class="ms">'+ms+'</div></div>';
+  }
+  var f=S.win[3][0],champ=f==null?null:who(3,0,f);
+  h+='<div class="col"><h2>Campeón</h2><div class="ms"><div class="cbox"><small>Campeón</small><b>'+(champ?esc(champ):"—")+'</b></div></div></div>';
+  h+='<svg id="ln"></svg>';
+  document.getElementById("bd").innerHTML=h;
+  lines();save();
+}
+function lines(){
+  var bd=document.getElementById("bd"),svg=document.getElementById("ln"),b=bd.getBoundingClientRect(),p="";
+  function pos(r,j){var e=bd.querySelector('[data-m="'+r+'-'+j+'"]').getBoundingClientRect();return{x1:e.left-b.left,x2:e.right-b.left,y:e.top-b.top+e.height/2}}
+  function seg(a,t,on){var mx=(a.x2+t.x1)/2;return '<path d="M'+a.x2+' '+a.y+'H'+mx+'V'+t.y+'H'+t.x1+'" fill="none" stroke="'+(on?'var(--red)':'var(--line)')+'" stroke-width="2"/>'}
+  for(var r=1;r<4;r++)for(var j=0;j<(8>>r);j++)for(var s=0;s<2;s++)p+=seg(pos(r-1,2*j+s),pos(r,j),S.win[r-1][2*j+s]!=null);
+  var f=pos(3,0),c=bd.querySelector(".cbox").getBoundingClientRect();
+  p+=seg(f,{x1:c.left-b.left,y:c.top-b.top+c.height/2},S.win[3][0]!=null);
+  svg.innerHTML=p;
+}
+function setWin(r,j,s){
+  S.win[r][j]=(S.win[r][j]===s)?null:s;
+  var jj=j>>1;for(var rr=r+1;rr<4;rr++){S.win[rr][jj]=null;jj>>=1}
+  render();
+}
+document.getElementById("bd").addEventListener("click",function(e){var b=e.target.closest(".ok");if(b&&!b.disabled)setWin(+b.dataset.r,+b.dataset.j,+b.dataset.s)});
+document.getElementById("bd").addEventListener("input",function(e){if(e.target.dataset.n!=null){S.names[+e.target.dataset.n]=e.target.value;save()}});
+document.getElementById("bd").addEventListener("change",function(e){if(e.target.dataset.n!=null)render()});
+document.getElementById("reset").onclick=function(){S.win=[[],[],[],[]];render()};
+document.getElementById("pres").onclick=function(){var on=document.body.classList.toggle("present");this.textContent=on?"Salir de presentación":"Modo presentación";try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();else if(!on&&document.fullscreenElement)document.exitFullscreen()}catch(e){}render()};
+window.addEventListener("resize",lines);
+render();
+</script>
+</body>
+</html>
