@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f1219;--panel:#181d2a;--line:#323b52;--tx:#f2f4f8;--mut:#8a94ab;--red:#ff3b4e;--gold:#ffc83d;--slot:#121724;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#eef0f5;--panel:#fff;--line:#c3c9d8;--tx:#141824;--mut:#5d667c;--slot:#f5f6fa;--gold:#d9a000;color-scheme:light}}
+/*light*/:root[data-theme="light"]{--bg:#eef0f5;--panel:#fff;--line:#c3c9d8;--tx:#141824;--mut:#5d667c;--slot:#f5f6fa;--gold:#d9a000;color-scheme:light}
 :root[data-theme="dark"]{color-scheme:dark}
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -55,6 +55,10 @@ body.present .hint,body.present .edit{display:none}
 .cbox{border:2px solid var(--gold);border-radius:14px;padding:22px 14px;text-align:center;background:var(--panel)}
 .cbox small{display:block;color:var(--gold);font-weight:600;margin-bottom:6px}
 .cbox b{font:800 clamp(20px,2.4vw,32px)/1.1 Unbounded,sans-serif;word-break:break-word}
+#fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;z-index:5}
+#theme{width:44px;height:44px;border-radius:50%;padding:0;display:grid;place-items:center;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+#exit{display:none;height:44px;border-radius:22px;box-shadow:0 2px 10px rgba(0,0,0,.25)}
+body.present #exit{display:block}
 </style>
 </head>
 <body>
@@ -72,6 +76,7 @@ body.present .hint,body.present .edit{display:none}
 </div>
 <p class="hint">Escribe los 16 nombres en la primera columna y pulsa el círculo del ganador para que avance.</p>
 <div id="wrap"><div id="bd"></div></div>
+<div id="fab"><button id="exit">Salir de presentación</button><button id="theme"></button></div>
 <script>
 var KEY="smash-bracket-v1",N=["Octavos","Cuartos","Semifinales","Final"];
 var S={title:"Octavos de final",names:[],win:[[],[],[],[]]};
@@ -124,7 +129,15 @@ document.getElementById("bd").addEventListener("click",function(e){var b=e.targe
 document.getElementById("bd").addEventListener("input",function(e){if(e.target.dataset.n!=null){S.names[+e.target.dataset.n]=e.target.value;save()}});
 document.getElementById("bd").addEventListener("change",function(e){if(e.target.dataset.n!=null)render()});
 document.getElementById("reset").onclick=function(){S.win=[[],[],[],[]];render()};
-document.getElementById("pres").onclick=function(){var on=document.body.classList.toggle("present");this.textContent=on?"Salir de presentación":"Modo presentación";try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();else if(!on&&document.fullscreenElement)document.exitFullscreen()}catch(e){}render()};
+var SUN='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ffc83d" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="#ffc83d"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+var MOON='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="#161a24" d="M21 14.5A9 9 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"/></svg>';
+function setTheme(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("smash-theme",t)}catch(e){}var b=document.getElementById("theme");b.innerHTML=t==="dark"?SUN:MOON;b.title=t==="dark"?"Cambiar a modo claro":"Cambiar a modo oscuro";b.setAttribute("aria-label",b.title)}
+(function(){var t=null;try{t=localStorage.getItem("smash-theme")}catch(e){}if(t!=="light"&&t!=="dark")t=(window.matchMedia&&matchMedia("(prefers-color-scheme: light)").matches)?"light":"dark";setTheme(t)})();
+document.getElementById("theme").onclick=function(){setTheme(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")};
+function setPresent(on){document.body.classList.toggle("present",on);document.getElementById("pres").textContent=on?"Salir de presentación":"Modo presentación";try{if(on&&document.documentElement.requestFullscreen&&!document.fullscreenElement)document.documentElement.requestFullscreen();else if(!on&&document.fullscreenElement)document.exitFullscreen()}catch(e){}render()}
+document.getElementById("pres").onclick=function(){setPresent(!pres())};
+document.getElementById("exit").onclick=function(){setPresent(false)};
+document.addEventListener("fullscreenchange",function(){if(!document.fullscreenElement&&pres())setPresent(false)});
 window.addEventListener("resize",lines);
 render();
 </script>
